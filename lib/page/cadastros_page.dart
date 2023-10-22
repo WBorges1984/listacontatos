@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:listacontatos/shared/widgets/text_label.dart';
 
 class CadastrosPage extends StatefulWidget {
   const CadastrosPage({super.key});
@@ -8,16 +12,71 @@ class CadastrosPage extends StatefulWidget {
 }
 
 class _CadastrosPageState extends State<CadastrosPage> {
+  TextEditingController nomeController = TextEditingController(text: "");
+  TextEditingController birthController = TextEditingController(text: "");
+  TextEditingController lastNameController = TextEditingController(text: "");
+  TextEditingController phoneController = TextEditingController(text: "");
+  TextEditingController mailController = TextEditingController(text: "");
+  final imagePicket = ImagePicker();
+  File? imageFile;
+
+  pick(ImageSource source) async {
+    final pickedFile = await imagePicket.pickImage(source: source);
+
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
         child: Scaffold(
-      body: Column(
-        children: [
-          Card(
-            child: Text("1111"),
-          )
-        ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Expanded(
+            child: Column(
+              children: [
+                CircleAvatar(
+                    backgroundImage:
+                        imageFile != null ? FileImage(imageFile!) : null,
+                    radius: 80,
+                    child: ElevatedButton.icon(
+                        onPressed: () {
+                          pick(ImageSource.gallery);
+                        },
+                        icon: Icon(Icons.camera),
+                        label: TextLabel(texto: ""))),
+                const TextLabel(texto: "Nome"),
+                TextField(
+                  controller: nomeController,
+                ),
+                const TextLabel(texto: "Sobrenome"),
+                TextField(
+                  controller: lastNameController,
+                ),
+                const TextLabel(texto: "Data Nascimento"),
+                TextField(
+                  keyboardType: TextInputType.datetime,
+                  controller: birthController,
+                ),
+                const TextLabel(texto: "Telefone"),
+                TextField(
+                  keyboardType: TextInputType.phone,
+                  controller: phoneController,
+                ),
+                const TextLabel(texto: "Email"),
+                TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  controller: mailController,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     ));
   }

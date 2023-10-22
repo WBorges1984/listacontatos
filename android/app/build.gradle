@@ -12,7 +12,7 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+def flutterVersionCode = localProperties.getProperty('flutter.compileSdkVersion').toInteger()
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
 }
