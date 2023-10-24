@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:listacontatos/shared/widgets/app_image.dart';
 
 class Contact {
   String photo;
@@ -22,36 +23,12 @@ class ListaContatosPage extends StatefulWidget {
 class _ListaContatosPageState extends State<ListaContatosPage> {
   List<Contact> contacts = [
     Contact(
-      photo:
-          'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
+      photo: AppImages.avatar,
       name: 'John Doe',
       email: 'john.doe@example.com',
-    ),
-    Contact(
-      photo:
-          'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-    ),
-    Contact(
-      photo:
-          'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-    ),
-    Contact(
-      photo:
-          'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-    ),
-    Contact(
-      photo:
-          'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-    ),
+    )
   ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -65,7 +42,6 @@ class _ListaContatosPageState extends State<ListaContatosPage> {
           style: TextStyle(fontSize: 23),
         ),
         Expanded(
-          flex: 1,
           child: ListView.builder(
               itemCount: contacts.length,
               itemBuilder: (context, index) {
@@ -73,7 +49,11 @@ class _ListaContatosPageState extends State<ListaContatosPage> {
 
                 return ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage(contact.photo),
+                    backgroundImage: Image.asset(
+                      contact.photo,
+                      height: 50,
+                    ).image,
+                    radius: 80,
                   ),
                   title: Text(contact.name),
                   subtitle: Text(contact.email),
