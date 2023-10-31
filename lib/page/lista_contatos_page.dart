@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:listacontatos/shared/widgets/app_image.dart';
+import 'package:listacontatos/model/contatos_model.dart';
 
-class Contact {
-  String photo;
-  String name;
-  String email;
-
-  Contact({
-    required this.photo,
-    required this.name,
-    required this.email,
-  });
-}
+import '../model/cliente_model.dart';
+import '../repository/cliente_http_repository.dart';
+import '../repository/cliente_repository.dart';
 
 class ListaContatosPage extends StatefulWidget {
   const ListaContatosPage({super.key});
@@ -21,13 +13,33 @@ class ListaContatosPage extends StatefulWidget {
 }
 
 class _ListaContatosPageState extends State<ListaContatosPage> {
-  List<Contact> contacts = [
+  ClienteModel clienteModel = ClienteModel();
+  ClienteRepository clienteRepository = ClienteRepository();
+  ClienteHttpRepository clienteHttp = ClienteHttpRepository();
+
+   List<ContatosHttpModel> contacts = [
+    Contact(
+      photo: AppImages.avatar2,
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+    ),
     Contact(
       photo: AppImages.avatar,
       name: 'John Doe',
       email: 'john.doe@example.com',
-    )
+    ),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    carregaContatos();
+  }
+
+  carregaContatos() async {
+    var contatos = await clienteHttp.ListarClientes();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,23 +55,32 @@ class _ListaContatosPageState extends State<ListaContatosPage> {
         ),
         Expanded(
           child: ListView.builder(
-              itemCount: contacts.length,
-              itemBuilder: (context, index) {
-                Contact contact = contacts[index];
+            itemCount: contacts.length,
+            itemBuilder: (context, index) {
+              Contact contact = contacts[index];
 
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: Image.asset(
-                      contact.photo,
-                      height: 50,
-                    ).image,
-                    radius: 80,
+              return Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
-                  title: Text(contact.name),
-                  subtitle: Text(contact.email),
-                  trailing: const Icon(Icons.email),
-                );
-              }),
+                  ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: Image.asset(
+                        contact.photo,
+                        height: 50,
+                        fit: BoxFit.cover,
+                      ).image,
+                      radius: 80,
+                    ),
+                    title: Text(contact.name),
+                    subtitle: Text(contact.email),
+                    trailing: const Icon(Icons.email),
+                  ),
+                ],
+              );
+            },
+          ),
         )
       ],
     ));

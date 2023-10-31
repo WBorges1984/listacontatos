@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:listacontatos/model/contatos_model.dart';
 
 class ClienteHttpRepository {
   final headers = {
@@ -9,10 +10,18 @@ class ClienteHttpRepository {
     'Content-Type': 'application/json',
   };
 
-  Future<Map> ListarClientes() async {
+  Future<List<Contact>> ListarClientes() async {
     var url = Uri.parse("https://parseapi.back4app.com/classes/listaContatos");
     http.Response response = await http.get(url, headers: headers);
 
-    return json.decode(response.body);
+    if (response.statusCode == 200) {
+      final contato = json.decode(response.body);
+      print(contato);
+      return contato;
+    } else {
+      throw Exception('Falha ao buscar clientes');
+    }
+
+    //return json.decode(response.body);
   }
 }
