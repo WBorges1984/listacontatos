@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:listacontatos/model/contatos_model.dart';
-
-import '../model/cliente_model.dart';
-import '../repository/cliente_http_repository.dart';
-import '../repository/cliente_repository.dart';
+import 'package:listacontatos/shared/widgets/app_image.dart';
 
 class ListaContatosPage extends StatefulWidget {
   const ListaContatosPage({super.key});
@@ -12,12 +8,16 @@ class ListaContatosPage extends StatefulWidget {
   State<ListaContatosPage> createState() => _ListaContatosPageState();
 }
 
-class _ListaContatosPageState extends State<ListaContatosPage> {
-  ClienteModel clienteModel = ClienteModel();
-  ClienteRepository clienteRepository = ClienteRepository();
-  ClienteHttpRepository clienteHttp = ClienteHttpRepository();
+class Contact {
+  String photo = '';
+  String name = '';
+  String email = '';
 
-   List<ContatosHttpModel> contacts = [
+  Contact({required this.photo, required this.name, required this.email});
+}
+
+class _ListaContatosPageState extends State<ListaContatosPage> {
+  List<Contact> contacts = [
     Contact(
       photo: AppImages.avatar2,
       name: 'John Doe',
@@ -34,11 +34,6 @@ class _ListaContatosPageState extends State<ListaContatosPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    carregaContatos();
-  }
-
-  carregaContatos() async {
-    var contatos = await clienteHttp.ListarClientes();
   }
 
   @override

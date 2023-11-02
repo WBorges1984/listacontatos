@@ -2,9 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:listacontatos/model/cliente_model.dart';
-import 'package:listacontatos/repository/cliente_http_repository.dart';
-import 'package:listacontatos/repository/cliente_repository.dart';
 import 'package:listacontatos/shared/widgets/text_label.dart';
 
 class CadastrosPage extends StatefulWidget {
@@ -22,9 +19,6 @@ class _CadastrosPageState extends State<CadastrosPage> {
   TextEditingController mailController = TextEditingController(text: "");
   final imagePicket = ImagePicker();
   File? imageFile;
-  ClienteModel clienteModel = ClienteModel();
-  ClienteRepository clienteRepository = ClienteRepository();
-  ClienteHttpRepository clienteHttp = ClienteHttpRepository();
 
   pick(ImageSource source) async {
     final pickedFile = await imagePicket.pickImage(source: source);
@@ -87,12 +81,7 @@ class _CadastrosPageState extends State<CadastrosPage> {
                 height: 10,
               ),
               ElevatedButton(
-                  onPressed: () async {
-                    var cli = await clienteHttp.ListarClientes().then((item) {
-                      print(item);
-                    });
-                  },
-                  child: const Text("Salvar"))
+                  onPressed: () async {}, child: const Text("Salvar"))
             ],
           ),
         ),

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:listacontatos/model/contatos_model.dart';
 
 class ClienteHttpRepository {
   final headers = {
@@ -10,7 +9,7 @@ class ClienteHttpRepository {
     'Content-Type': 'application/json',
   };
 
-  Future<List<Contact>> ListarClientes() async {
+  Future<List> ListarClientes() async {
     var url = Uri.parse("https://parseapi.back4app.com/classes/listaContatos");
     http.Response response = await http.get(url, headers: headers);
 
